@@ -22,7 +22,7 @@ import Bootstrap.Modal as Modal
 import Bootstrap.Table as Table
 import Bootstrap.Utilities.Spacing as Spacing
 import Debug
-import Dict
+import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -38,30 +38,40 @@ iconHeight = 64
 
 barChart wordCounts time =
   let
-    numWords = List.length wordCounts
+    numWords = Basics.min (List.length wordCounts) 20
     maxCount = List.maximum (List.map Tuple.first wordCounts) |> Maybe.withDefault 10
     scaleHeight = iconHeight / toFloat maxCount
 
-    width = iconWidth / toFloat numWords
+    width = (iconWidth - 2) / toFloat numWords
 
     growHeight y = if y < time then y else time
 
     bar idx (count,word) =
         group [ GraphicSVG.rect width (growHeight <| scaleHeight * toFloat count)
                   |> filled (rgb 200 0 200)
-                  |> move (0,0.5 * growHeight ( scaleHeight * toFloat count ) )
-              , GraphicSVG.text word |> GraphicSVG.size 5
+                  |> move (2 ,0.5 * growHeight ( scaleHeight * toFloat count ) )
+                  |> move ( toFloat idx * width - 0.5 * iconWidth + 0.5 * width
+                  , -0.5 * toFloat iconHeight)
+              , GraphicSVG.text word |> GraphicSVG.size 3
                   |> filled white
                   |> rotate (degrees 90)
-                  |> move (0,3)
-              ]
-          |> move ( toFloat idx * width - 0.5 * iconWidth + 0.5 * width
+                  |> move (2,3)
+                  |> move ( toFloat idx * width - 0.5 * iconWidth + 0.5 * width
                   , -0.5 * toFloat iconHeight)
+              , GraphicSVG.text (String.fromInt count) |> GraphicSVG.size 3
+                  |> filled black
+                  |> move (-63.5, (scaleHeight * toFloat count ) - 4 - 0.5 * toFloat iconHeight)
+              ]
+          
 
 
   in
-      [ -- put a scale here
-      ]
+     [
+         rect 1 100
+         |> filled black
+         |> scaleY 2
+         |> move (-64,0)
+     ]
       ++ (List.indexedMap bar wordCounts)
             |> group
 
@@ -166,12 +176,25 @@ update msg model =
 
         NoOp -> (model, Cmd.none)
 
-        NewText txt -> ( {model | wordCounts = List.indexedMap ( \ idx wrd -> (idx,wrd) )
-                                                 <| String.words txt
+        --NewWordCounts 
+        NewText txt -> ( {model | wordCounts = List.reverse (List.sortBy Tuple.first (List.map ( \ wrd -> (Tuple.second wrd, Tuple.first  wrd) )
+                                                  <| Dict.toList (countWrds (String.words txt))))
                                 , timeOfInput = model.time }, Cmd.none)
 
         Tick t -> ({ model | time = t }, Cmd.none)
 
+dictCounts: Dict String Int
+dictCounts = Dict.empty
+  
+countWrds lst = 
+    List.foldr (\word num ->
+                  Dict.update word (\currentNum -> case currentNum of
+                                                    Just existingNum -> Just (existingNum + 1)
+                                                    Nothing -> Just 1
+                                   ) num
+               ) dictCounts lst
+           
+    
 urlUpdate : Url -> Model -> ( Model, Cmd Msg )
 urlUpdate url model =
     case decode url of
