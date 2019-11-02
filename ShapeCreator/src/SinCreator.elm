@@ -1105,16 +1105,19 @@ view model =
 
         yourCodeGroup =
             group
-                [ rect 200 100 |> outlined (solid 1) red |> makeTransparent 0.25 |> move ( 100, 20 )
-                , copiable "--Add these new definitions to your code" |> move ( 0, 60 )
+                [ rect 300 140 |> outlined (solid 1) red |> makeTransparent 0.25 |> move ( 100, 20 )
+                , group [copiable "--Add these new definitions to your code" |> move ( 0, 60 )
                 , copiable ("u = " ++ String.fromFloat model.uScale ++ "*" ++ textTrig model.trigCycleU ++ "(" ++ String.fromFloat model.uDilation ++ "*model.time+" ++ String.fromFloat model.uShift ++ ")") |> move ( 0, 50 )
                 , copiable "mySquare = square 15" |> move ( 0, 30 )
                 , copiable ("  |> outlined (solid 0.25) rgb (" ++ String.fromFloat model.rScale ++ "*" ++ showFun model.rFun u v ++ " " ++ String.fromFloat model.gScale ++ "*" ++ showFun model.gFun u v ++ " " ++ String.fromFloat model.bScale ++ "*" ++ showFun model.bFun u v ++ ")") |> move ( 35, 20 )
                 , copiable ("  " ++ applyTransformsYourCode model model.uTransform) |> move ( 35, 10 )
                 , copiable ("  |> move(" ++ moveText model.moveX1 ++ "," ++ moveText model.moveY1 ++ ")") |> move ( 35, 0 )
                 , copiable "--Add the following code to your shapes:" |> move ( 0, -10 )
-                , copiable "mySquare" |> move ( 10, -20 )
+                , copiable "mySquare" |> move ( 10, -20 )]
+                 |> move (-20, -10)
+                 |> scale 1.5
                 ]
+                |> move ( -40, -230 )
 
         transformsGraphicsGroup =
             group
@@ -1129,6 +1132,7 @@ view model =
                     ]
                     |> move ( 30, 50 )
                 ]
+                |> move ( 100, 110 )
 
         {-
            moveGraphicsY =
