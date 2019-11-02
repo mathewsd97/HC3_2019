@@ -1219,7 +1219,7 @@ view model =
         , trigGraphAxis model |> move ( -185, 70 )
         , circleGraphics
         ]
-        |> move ( -140, 80 )
+        |> move ( -140, 55 )
     , titlesText |> makeTransparent 0
     , cosLabel |> move ( -127, 67 )
     , transformsGraphicsGroup |> move ( 0, -100 )
