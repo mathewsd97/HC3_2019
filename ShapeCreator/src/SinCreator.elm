@@ -1105,30 +1105,43 @@ view model =
 
         yourCodeGroup =
             group
-                [ rect 200 100 |> outlined (solid 1) red |> makeTransparent 0.25 |> move ( 100, 20 )
-                , copiable "--Add these new definitions to your code" |> move ( 0, 60 )
+                [ rect 300 70 |> filled (rgba 255 255 255 0.5) |> addOutline (solid 1) lightGrey |> move ( 20, -20 )
+                , rect 80 12 |> filled white |> addOutline (solid 1) lightGrey |> move ( -80, 15 )
+                , text "4. Your code!" |> serif |> italic |> size 10 |> filled titleColour |> move ( -110, 13 )
+                , group [copiable "mySquare = square 15" |> move ( 0, 60 )
+                , copiable ("  |> outlined (solid 0.25) rgb (" ++ String.fromFloat model.rScale ++ "*" ++ showFun model.rFun u v ++ " " ++ String.fromFloat model.gScale ++ "*" ++ showFun model.gFun u v ++ " " ++ String.fromFloat model.bScale ++ "*" ++ showFun model.bFun u v ++ ")") |> move ( 35, 50 )
+                , copiable ("  " ++ applyTransformsYourCode model model.uTransform) |> move ( 35, 40 )
+                , copiable ("  |> move(" ++ moveText model.moveX1 ++ "," ++ moveText model.moveY1 ++ ")") |> move ( 35, 30 )]
+                 |> move (-85, -60)
+                 |> scale 1.5
+                , rect 170 60 |> filled (rgba 255 255 255 0.5) |> addOutline (solid 1) lightGrey |> move ( 120, 55 )
+                , rect 90 12 |> filled white |> addOutline (solid 1) lightGrey |> move ( 85, 85 )
+                , text "3. Notes!" |> serif |> italic |> size 10 |> filled titleColour |> move ( 60, 83 )
+                , group [copiable "--Add these new definitions to your code" |> move ( 0, 60 )
                 , copiable ("u = " ++ String.fromFloat model.uScale ++ "*" ++ textTrig model.trigCycleU ++ "(" ++ String.fromFloat model.uDilation ++ "*model.time+" ++ String.fromFloat model.uShift ++ ")") |> move ( 0, 50 )
-                , copiable "mySquare = square 15" |> move ( 0, 30 )
-                , copiable ("  |> outlined (solid 0.25) rgb (" ++ String.fromFloat model.rScale ++ "*" ++ showFun model.rFun u v ++ " " ++ String.fromFloat model.gScale ++ "*" ++ showFun model.gFun u v ++ " " ++ String.fromFloat model.bScale ++ "*" ++ showFun model.bFun u v ++ ")") |> move ( 35, 20 )
-                , copiable ("  " ++ applyTransformsYourCode model model.uTransform) |> move ( 35, 10 )
-                , copiable ("  |> move(" ++ moveText model.moveX1 ++ "," ++ moveText model.moveY1 ++ ")") |> move ( 35, 0 )
-                , copiable "--Add the following code to your shapes:" |> move ( 0, -10 )
-                , copiable "mySquare" |> move ( 10, -20 )
+                , copiable "--Add the following code to your shapes:" |> move ( 0, 40 )
+                , copiable "mySquare" |> move ( 10, 30 )]
+                 |> move (30, -5)
+                 |> scale 1.25
                 ]
+                |> move ( 0, -230 )
 
         transformsGraphicsGroup =
             group
-                [ rect 210 200 |> outlined (solid 1) red |> makeTransparent 0.25 |> move ( 45, 70 )
-                , square 15 |> outlined (solid 1) (rgb model.r model.g model.b) |> applyTransforms model.uTransform model |> move ( 45, 60 )
+                [ rect 130 30 |> filled (rgba 255 255 255 0.5) |> addOutline (solid 1) lightGrey |> move ( 85, 55 )
+                , rect 90 12 |> filled white |> addOutline (solid 1) lightGrey |> move ( 70, 70 )
+                , text "2. Pick a Property!" |> serif |> italic |> size 10 |> filled titleColour |> move ( 40, 66 )
+                , square 15 |> outlined (solid 1) (rgb model.r model.g model.b) |> applyTransforms model.uTransform model |> move ( -100, 0 )
                 , group
                     [ text (applyTransformsText model.uTransform) |> size 10 |> filled black |> move ( 4, 105 )
-                    , triangle 8 |> filled (rgb 255 10 10) |> rotate (degrees 180) |> notifyTap UTransformsReverse |> move ( -70, 105 ) |> notifyLeave (TransM (\m -> { m | transformsLeftArrowTransp = 0.25 })) |> notifyEnter (TransM (\m -> { m | transformsLeftArrowTransp = 1 })) |> makeTransparent model.transformsLeftArrowTransp
-                    , triangle 8 |> filled (rgb 255 10 10) |> notifyTap UTransforms |> move ( 100, 105 ) |> notifyLeave (TransM (\m -> { m | transformsRightArrowTransp = 0.25 })) |> notifyEnter (TransM (\m -> { m | transformsRightArrowTransp = 1 })) |> makeTransparent model.transformsRightArrowTransp
+                    , triangle 8 |> filled (rgb 255 10 10) |> rotate (degrees 180) |> notifyTap UTransformsReverse |> move ( -10, 105 ) |> notifyLeave (TransM (\m -> { m | transformsLeftArrowTransp = 0.25 })) |> notifyEnter (TransM (\m -> { m | transformsLeftArrowTransp = 1 })) |> makeTransparent model.transformsLeftArrowTransp
+                    , triangle 8 |> filled (rgb 255 10 10) |> notifyTap UTransforms |> move ( 80, 105 ) |> notifyLeave (TransM (\m -> { m | transformsRightArrowTransp = 0.25 })) |> notifyEnter (TransM (\m -> { m | transformsRightArrowTransp = 1 })) |> makeTransparent model.transformsRightArrowTransp
 
                     --, text (moveText model.transformFun) |> size 10 |> filled black |> notifyTap TransformsFunctionChange |> move ( x1, 105 ) |> notifyLeave (TransM (\m -> { m | transformsNumTransp = 0.25 })) |> notifyEnter (TransM (\m -> { m | transformsNumTransp = 1 })) |> makeTransparent model.transformsNumTransp
                     ]
-                    |> move ( 30, 50 )
+                    |> move ( 50, -60 )
                 ]
+                |> move ( 100, 110 )
 
         {-
            moveGraphicsY =
@@ -1219,18 +1232,20 @@ view model =
         , trigGraphAxis model |> move ( -185, 70 )
         , circleGraphics
         ]
-        |> move ( -140, 55 )
+        |> move ( -140, 95 )
     , titlesText |> makeTransparent 0
-    , cosLabel |> move ( -127, 67 )
+    , cosLabel |> move ( -127, 47 )
     , transformsGraphicsGroup |> move ( 0, -100 )
 
     --, moveGraphicsX |> move ( 180, 220 )
     --, moveGraphicsY |> move ( 60, 50 )
     , group
-        [ functionText model |> move ( 5, 150 )
-        , setofTriangles |> move ( 0, 165 )
-        ]
-        |> move ( -20, 15 )
+        [ rect 170 50 |> filled (rgba 255 255 255 0.5) |> addOutline (solid 1) lightGrey |> move ( -40, 150 )
+        , rect 115 12 |> filled white |> addOutline (solid 1) lightGrey |> move ( -70, 175 )
+        , text "1. Modify the Function!" |> serif |> italic |> size 10 |> filled titleColour |> move ( -110, 173 )
+        , functionText model |> move ( 5, 145 )
+        , setofTriangles |> move ( 0, 160 )]
+        |> move ( 120, -8 )
 
     --, rgbGraphics |> move ( 140, 90 )
     , yourCodeGroup |> move ( 40, 110 )
