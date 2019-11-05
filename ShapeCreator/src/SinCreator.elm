@@ -1,3 +1,46 @@
+{-
+    Shalmi Patel - 400023762
+    Diya Mathews - 400014156
+    
+    NOTE: Please feel free to use this code for your main ShapeCreator
+
+    ***************************************************************************************************************************
+
+    User: The user is a high school student that is new to using Elm, and unfamiliar with functional programming.
+
+    Activity: The user is creating a website for a club that he is involved in and wants to use this opportunity to improve
+              his skills with functional programming and learn more Elm.
+
+    Emotion: The user is confused on how to approach the task of animating apsects of his website.
+
+    Tasks: The task that the user has to complete, is to determine how to achieve a blinking square for his website.
+
+    Typical Interaction: 
+    1.  Open wave creator
+    2.  Under “Modify the Function!”, use the up or down arrows to change the function values. In order to achieve the
+        blicking square, you will have to increase the frequency of the sin function (the second set of arrows).
+    3.  Under “Pick a Property!”, use the arrows to select the transformation to apply to the square. For the blinking square, 
+        select "makeTransparent".
+    4.  Under the “Notes!” section, the resulting wave function can be found with other various notes.
+    5.  Under the “Your Code!” section, the sample code will be displayed in order to create the blinking square.
+
+    Principle 1: Discoverability using signifiers
+    Normal discoverability and the signifiers principles go hand in hand as the signifiers of the system can help the
+    user discover the program’s functionalities. We used this principle to provide a better understanding to a user 
+    that is new to elm. The original code had no indication to what functionalities were available. A new user would 
+    have been frustrated figuring out what they are required to do to achieve their desired outcome. To make it easier
+    for the user, we added headings to each of the areas that the user has control over. These signifiers allow the user
+    to clearly tell where changes can be made to the function and the square.
+
+    Principle 2: Conceptual Model
+    Normans principle of conceptual models talks about, the mental model of how the product works. In the program 
+    ShapeCreator, all the other pages have a standard layout that they follow. A user that is using this program, would 
+    assume that the layout of wave creator is the similar to the other pages. In the original code, the layout of the 
+    WaveCreator had no specific order, making it harder for the user to determine what to do. To make the user feel in 
+    control we changed the layout of WaveCreator to match the format of the other pages. This allows the user to use their 
+    knowledge from the other pages and apply for WaveCreator.
+-}
+
 module SinCreator exposing (..)
 
 {-
